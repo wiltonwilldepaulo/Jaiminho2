@@ -10,6 +10,7 @@ $app->addRoutingMiddleware();
 
 $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 
+require __DIR__ . '/../app/helper/settings.php';
 require __DIR__ . '/../app/route/route.php';
 
 $app->run();
