@@ -15,7 +15,14 @@ class User extends Base
             ->withHeader('Content-Type', 'text/html')
             ->withStatus(200);
     }
-    public function cadastro($request, $response){
-        echo "oi";die;
+    public function cadastro($request, $response)
+    {
+        $dadosTemplate = [
+            'titulo' => 'Cadastro de usuário'
+        ];
+        return $this->getTwig()
+            ->render($response, $this->setView('user'), $dadosTemplate)
+            ->withHeader('Content-Type', 'text/html')
+            ->withStatus(200);
     }
 }
