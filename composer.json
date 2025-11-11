@@ -10,7 +10,7 @@
             "name": "WILTON WILL DE PAULO",
             "email": "wiltonwilldepaulo@gmail.com"
         }
-    ],
+    ], 
     "require": {
         "slim/slim": "^4.15",
         "slim/psr7": "^1.7",
