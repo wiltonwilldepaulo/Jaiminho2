@@ -1,4 +1,5 @@
 name: "Deploy para VPS"
+
 on:
   push:
     branches: 
@@ -6,9 +7,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: "Baixar o código" 
         uses: actions/checkout@v4
+
       - name: "Copiar arquivos para VPS"
         uses: appleboy/scp-action@v1
         with:
@@ -26,5 +29,6 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /home/jaiminho2
-            composer install --no-dev --no-progress -a
+            sudo dos2unix run.sh
+            sudo bash run.sh
             chown -R www-data:www-data .
