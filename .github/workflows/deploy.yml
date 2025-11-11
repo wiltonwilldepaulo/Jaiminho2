@@ -1,5 +1,4 @@
 name: "Deploy para VPS"
-
 on:
   push:
     branches: 
@@ -7,11 +6,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: "Baixar o código" 
         uses: actions/checkout@v4
-
       - name: "Copiar arquivos para VPS"
         uses: appleboy/scp-action@v1
         with:
