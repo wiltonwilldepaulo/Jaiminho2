@@ -27,4 +27,4 @@ jobs:
           script: |
             cd /home/jaiminho2
             composer install --no-dev --no-progress -a
-            chown -R www-data:www-data . 
+            chown -R www-data:www-data .
