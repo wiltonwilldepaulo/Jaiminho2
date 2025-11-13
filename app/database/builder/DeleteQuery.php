@@ -1,23 +1,17 @@
 <?php
-
 # Define o namespace da classe, organizando o código por pastas virtuais.
 namespace app\database\builder;
-
 # Importa a classe de conexão com o banco de dados.
 use app\database\Connection;
-
 # Classe responsável por montar e executar queries SQL do tipo DELETE de forma fluente.
 class DeleteQuery
 {
     # Armazena o nome da tabela onde a exclusão será feita.
     private string $table;
-
     # Array para armazenar as condições da cláusula WHERE.
     private array $where = [];
-
     # Array de binds para associar os placeholders aos valores no prepared statement.
     private array $binds = [];
-
     # Método estático que inicia a construção da query DELETE com o nome da tabela.
     public static function table(string $table): ?self
     {
