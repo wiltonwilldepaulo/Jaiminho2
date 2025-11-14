@@ -14,7 +14,7 @@ class SelectQuery
         $self->fields = $fields;
         return $self;
     }
-    public function from(string $table)
+    public function from(string $table): self
     {
         $this->table = $table;
         return $this;
