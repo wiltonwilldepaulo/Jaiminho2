@@ -1,21 +1,16 @@
 <?php
-
-# Define o namespace da classe, organizando o código por pastas virtuais.
+#Define o namespace da classe, organizando o código por pastas virtuais.
 namespace app\database\builder;
-
-# Importa a classe de conexão com o banco de dados.
+#Importa a classe de conexão com o banco de dados.
 use app\database\Connection;
-
-# Classe responsável por montar e executar queries SQL do tipo DELETE de forma fluente.
+#Classe responsável por montar e executar queries SQL do tipo DELETE de forma fluente.
 class DeleteQuery
 {
-    # Armazena o nome da tabela onde a exclusão será feita.
+    #Armazena o nome da tabela onde a exclusão será feita.
     private string $table;
-
-    # Array para armazenar as condições da cláusula WHERE.
+    #Array para armazenar as condições da cláusula WHERE.
     private array $where = [];
-
-    # Array de binds para associar os placeholders aos valores no prepared statement.
+    #Array de binds para associar os placeholders aos valores no prepared statement.
     private array $binds = [];
 
     # Método estático que inicia a construção da query DELETE com o nome da tabela.
@@ -30,7 +25,7 @@ class DeleteQuery
     }
     #field Campo (coluna) que será filtrado.
     #operator Operador lógico (=, >, <, etc.).
-    # string|int $value Valor a ser comparado.
+    #string|int $value Valor a ser comparado.
     #$logic Operador lógico adicional (AND, OR). Pode ser nulo.
     public function where(string $field, string $operator, string|int $value, ?string $logic = null): ?self
     {
