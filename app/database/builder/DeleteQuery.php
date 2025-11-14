@@ -19,7 +19,7 @@ class DeleteQuery
     private array $binds = [];
 
     # Método estático que inicia a construção da query DELETE com o nome da tabela.
-    public static function table(string $table): ?self
+    public static function table(string $table)  : ?  self
     {
         # Instancia a própria classe
         $self = new self;
