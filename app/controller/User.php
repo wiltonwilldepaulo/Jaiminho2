@@ -42,10 +42,10 @@ class User extends Base
         #O termo pesquisado
         $term = $form['search']['value'];
         $query = SelectQuery::select('id,nome,sobrenome')->from('usuario');
-        /*if (!is_null($term) && ($term !== '')) {
-            $query->where('usuario.nome', 'like', "%{$term}%", 'or')
-                ->where('usuario.sobrenome', 'like', "%{$term}%");
-        }*/
+        if (!is_null($term) && ($term !== '')) {
+            $query->where('usuario.nome', 'ilike', "%{$term}%", 'or')
+                ->where('usuario.sobrenome', 'ilike', "%{$term}%");
+        }
         $users = $query->fetchAll();
         $userData = [];
         foreach ($users as $key => $value) {
@@ -54,7 +54,7 @@ class User extends Base
                 $value['nome'],
                 $value['sobrenome'],
                 "<button class='btn btn-warning'>Editar</button>
-            <button class='btn btn-danger'>Excluir</button>"
+                <button class='btn btn-danger'>Excluir</button>"
             ];
         }
         $data = [

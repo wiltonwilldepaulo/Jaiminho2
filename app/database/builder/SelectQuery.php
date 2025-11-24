@@ -86,7 +86,7 @@ class SelectQuery
         try {
             $connection = Connection::connection();
             $prepare = $connection->prepare($query);
-            $prepare->execute($this->bind ?? []);
+            $prepare->execute($this->binds ?? []);
             return $prepare->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\Exception $e) {
             throw new \Exception("Restrição: " . $e->getMessage());
