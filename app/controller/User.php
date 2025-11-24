@@ -39,20 +39,33 @@ class User extends Base
         $start = $form['start'];
         #Limite de registro a serem retornados do banco de dados LIMIT
         $length = $form['length'];
+        $fields = [
+            0 => 'id',
+            1 => 'nome',
+            2 => 'sobrenome',
+            3 => 'cpf'
+        ];
+        #Capturamos o nome do capo a ser ordenado.
+        $orderField = $fields[$order];
         #O termo pesquisado
         $term = $form['search']['value'];
-        $query = SelectQuery::select('id,nome,sobrenome')->from('usuario');
+        $query = SelectQuery::select('id,nome,sobrenome,cpf')->from('usuario');
         if (!is_null($term) && ($term !== '')) {
             $query->where('usuario.nome', 'ilike', "%{$term}%", 'or')
-                ->where('usuario.sobrenome', 'ilike', "%{$term}%");
+                ->where('usuario.sobrenome', 'ilike', "%{$term}%", 'or')
+                ->where('usuario.cpf', 'ilike', "%{$term}%");
         }
-        $users = $query->fetchAll();
+        $users = $query
+            ->order($orderField, $orderType)
+            ->limit($length, $start)
+            ->fetchAll();
         $userData = [];
         foreach ($users as $key => $value) {
             $userData[$key] = [
                 $value['id'],
                 $value['nome'],
                 $value['sobrenome'],
+                $value['cpf'],
                 "<button class='btn btn-warning'>Editar</button>
                 <button class='btn btn-danger'>Excluir</button>"
             ];
