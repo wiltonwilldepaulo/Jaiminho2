@@ -8,4 +8,5 @@ InsertButton.addEventListener('click', async () => {
     const IsValid = Validate
         .SetForm('form')
         .Validate();
+    console.log(IsValid);
 });
