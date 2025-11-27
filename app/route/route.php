@@ -3,11 +3,14 @@
 use app\controller\User;
 use app\controller\Home;
 use app\controller\Customer;
+use app\controller\Login;
+use app\middleware\Middleware;
 use Slim\Routing\RouteCollectorProxy;
 
-$app->get('/', Home::class . ':home');
+$app->get('/', Home::class . ':home')->add(Middleware::route());
 
-$app->get('/home', Home::class . ':home');
+$app->get('/home', Home::class . ':home')->add(Middleware::route());
+$app->get('/login', Login::class . ':login');
 
 $app->group('/usuario', function (RouteCollectorProxy $group) {
     $group->get('/lista', User::class . ':lista');
