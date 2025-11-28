@@ -21,6 +21,7 @@ class User extends Base
     public function cadastro($request, $response)
     {
         $dadosTemplate = [
+            'acao' => 'c',
             'titulo' => 'Cadastro de usuário'
         ];
         return $this->getTwig()
@@ -112,10 +113,13 @@ class User extends Base
                     ->withHeader('Content-Type', 'application/json')
                     ->withStatus(200);
             }
+
+            $id = SelectQuery::select('id')->from('usuario')->order('id', 'desc')->fetch();
+
             $data = [
                 'status' => true,
                 'msg' => 'Cadastro realizado com sucesso! ',
-                'id' => 0
+                'id' => $id['id']
             ];
             $payload = json_encode($data);
             $response->getBody()->write($payload);

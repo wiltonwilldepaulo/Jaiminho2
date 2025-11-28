@@ -2,6 +2,8 @@
 {% block main %}
 <div class="container">
     <form id="form">
+        <!-- Define a ação a ser executada C = cadastro, E = Editar -->
+        <input type="text" id="acao" name="acao" value="{{ acao }}">
         <ul class="nav nav-tabs mt-2" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#perfil"
