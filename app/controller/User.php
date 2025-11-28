@@ -2,6 +2,7 @@
 
 namespace app\controller;
 
+use app\database\builder\InsertQuery;
 use app\database\builder\SelectQuery;
 
 class User extends Base
@@ -83,10 +84,45 @@ class User extends Base
         return $response
             ->withHeader('Content-Type', 'application/json')
             ->withStatus(200);
-
-
-        /*
-
-*/
+    }
+    public function insert($request, $response)
+    {
+        try {
+            $form = $request->getParsedBody();
+            $FieldAndValues = [
+                'nome' => $form['nome'],
+                'sobrenome' => $form['sobrenome'],
+                'cpf' => $form['cpf'],
+                'rg' => $form['rg'],
+                'data_nascimento' => $form['data_nascimento'],
+                'senha' => password_hash($form['senha'], PASSWORD_DEFAULT),
+                #'ativo' => (isset($form['ativo']) and $form['ativo'] === 'true') ? true : false,
+                #'administrador' => (isset($form['administrador']) and $form['administrador'] === 'true') ? true : false
+            ];
+            $IsInsert = InsertQuery::table('usuario')->save($FieldAndValues);
+            if (!$IsInsert) {
+                $data = [
+                    'status' => false,
+                    'msg' => 'Restrição: ' . $$IsInsert,
+                    'id' => 0
+                ];
+                $payload = json_encode($data);
+                $response->getBody()->write($payload);
+                return $response
+                    ->withHeader('Content-Type', 'application/json')
+                    ->withStatus(200);
+            }
+            $data = [
+                'status' => true,
+                'msg' => 'Cadastro realizado com sucesso! ',
+                'id' => 0
+            ];
+            $payload = json_encode($data);
+            $response->getBody()->write($payload);
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(200);
+        } catch (\Exception $e) {
+        }
     }
 }
