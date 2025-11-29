@@ -2,6 +2,8 @@ import { Validate } from "./Validate.js";
 import { Requests } from "./Requests.js";
 
 const InsertButton = document.getElementById('insert');
+const FieldPassword = document.getElementById('campo_senha');
+const Action = document.getElementById('acao');
 
 $('#cpf').inputmask({ "mask": ["999.999.999-99", "99.999.999/9999-99"] });
 
@@ -26,7 +28,6 @@ async function insert() {
     }
     const response = await Requests.SetForm('form').Post('/usuario/insert');
     if (!response.status) {
-        console.log(response);
         Swal.fire({
             icon: "error",
             title: response.msg,
@@ -40,8 +41,12 @@ async function insert() {
         return;
     }
     document.getElementById('acao').value = 'e';
+    //Setamos o valor do campos ID para que se necessário alterar o registro
+    document.getElementById('id').value = response.id;
     //Modifica a URL da aplicação sem recarregar
-    history.pushState(`/usuario/alterar/${response.id}`, '');
+    history.pushState(`/usuario/alterar/${response.id}`, '', `/usuario/alterar/${response.id}`);
+    //Após inserir ocultamos o campos de senha.
+    FieldPassword.classList.add('d-none');
     Swal.fire({
         icon: "success",
         title: response.msg,
@@ -74,7 +79,6 @@ async function update() {
     }
     const response = await Requests.SetForm('form').Post('/usuario/update');
     if (!response.status) {
-        console.log(response);
         Swal.fire({
             icon: "error",
             title: response.msg,
@@ -98,8 +102,10 @@ async function update() {
         }
     });
 }
-
 InsertButton.addEventListener('click', async () => {
-    const Action = document.getElementById('acao').value;
-    (Action === 'c') ? await insert() : await update();
+    (Action.value === 'c') ? FieldPassword.classList.remove('d-none') : FieldPassword.classList.add('d-none');
+    (Action.value === 'c') ? await insert() : await update();
+});
+document.addEventListener('DOMContentLoaded', async () => {
+    (Action.value === 'c') ? FieldPassword.classList.remove('d-none') : FieldPassword.classList.add('d-none');
 });

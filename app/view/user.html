@@ -3,7 +3,8 @@
 <div class="container">
     <form id="form">
         <!-- Define a ação a ser executada C = cadastro, E = Editar -->
-        <input type="text" id="acao" name="acao" value="{{ acao }}">
+        <input type="hidden" id="acao" name="acao" value="{{ acao }}">
+        <input type="hidden" id="id" name="id" value="{{id}}">
         <ul class="nav nav-tabs mt-2" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#perfil"
@@ -29,29 +30,29 @@
                     <div class="col-md-4">
                         <label for="nome" class="form-label">Nome</label>
                         <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome."
-                            required autofocus>
+                            required autofocus value="{{usuario.nome}}">
                     </div>
                     <div class="col-md-4">
                         <label for="sobrenome" class="form-label">Sobre nome</label>
                         <input type="text" class="form-control" id="sobrenome" name="sobrenome"
-                            placeholder="Por favor digite seu sobre nome" required>
+                            placeholder="Por favor digite seu sobre nome" required value="{{usuario.sobrenome}}">
                     </div>
                     <div class="col-md-4">
                         <label for="cpf" class="form-label">CPF</label>
                         <input type="text" class="form-control" id="cpf" name="cpf"
-                            placeholder="Por favor digite seu CPF" required>
+                            placeholder="Por favor digite seu CPF" required value="{{usuario.cpf}}">
                     </div>
                     <div class="col-md-4">
                         <label for="rg" class="form-label">RG</label>
                         <input type="text" class="form-control" id="rg" name="rg" placeholder="Por favor digite seu RG"
-                            required>
+                            required value="{{usuario.rg}}">
                     </div>
                     <div class="col-md-4">
                         <label for="data_nascimento" class="form-label">Data nascimento</label>
                         <input type="date" class="form-control" id="data_nascimento" name="data_nascimento"
-                            placeholder="Por favor digite seu CPF" required>
+                            placeholder="Por favor digite seu CPF" required value="{{usuario.data_nascimento}}">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4" id="campo_senha">
                         <label for="senha" class="form-label">Senha</label>
                         <input type="password" class="form-control" id="senha" name="senha"
                             placeholder="Por favor digite sua senha" required>
@@ -75,13 +76,9 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <button class="btn btn-success" type="button" id="insert">
-
-                            Salvar
-                        </button>
+                        <button class="btn btn-success" type="button" id="insert">Salvar</button>
                     </div>
                 </div>
-
             </div>
             <div class="tab-pane fade" id="endereco" role="tabpanel" aria-labelledby="endereco-tab" tabindex="0">
                 <h1>Dados do endereço</h1>

@@ -4,6 +4,7 @@ namespace app\controller;
 
 use app\database\builder\InsertQuery;
 use app\database\builder\SelectQuery;
+use app\database\builder\UpdateQuery;
 
 class User extends Base
 {
@@ -22,7 +23,22 @@ class User extends Base
     {
         $dadosTemplate = [
             'acao' => 'c',
-            'titulo' => 'Cadastro de usuário'
+            'titulo' => 'Cadastro e alteracao de usuário'
+        ];
+        return $this->getTwig()
+            ->render($response, $this->setView('user'), $dadosTemplate)
+            ->withHeader('Content-Type', 'text/html')
+            ->withStatus(200);
+    }
+    public function alterar($request, $response, $args)
+    {
+        $id = $args['id'];
+        $user = SelectQuery::select()->from('usuario')->where('id', '=', $id)->fetch();
+        $dadosTemplate = [
+            'acao' => 'e',
+            'id' => $id,
+            'titulo' => 'Cadastro e alteracao de usuário',
+            'usuario' => $user
         ];
         return $this->getTwig()
             ->render($response, $this->setView('user'), $dadosTemplate)
@@ -68,8 +84,8 @@ class User extends Base
                 $value['nome'],
                 $value['sobrenome'],
                 $value['cpf'],
-                "<button class='btn btn-warning'>Editar</button>
-                <button class='btn btn-danger'>Excluir</button>"
+                "<a href='/usuario/alterar/{$value['id']}' class='btn btn-warning'>Editar</a>
+                <button onclick='Delete({$value['id']})' class='btn btn-danger'>Excluir</button>"
             ];
         }
         $data = [
@@ -120,6 +136,47 @@ class User extends Base
                 'status' => true,
                 'msg' => 'Cadastro realizado com sucesso! ',
                 'id' => $id['id']
+            ];
+            $payload = json_encode($data);
+            $response->getBody()->write($payload);
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(200);
+        } catch (\Exception $e) {
+        }
+    }
+    public function update($request, $response)
+    {
+        try {
+            $form = $request->getParsedBody();
+            $id = $form['id'];
+            $FieldAndValues = [
+                'nome' => $form['nome'],
+                'sobrenome' => $form['sobrenome'],
+                'cpf' => $form['cpf'],
+                'rg' => $form['rg'],
+                'data_nascimento' => $form['data_nascimento'],
+                'senha' => password_hash($form['senha'], PASSWORD_DEFAULT),
+                #'ativo' => (isset($form['ativo']) and $form['ativo'] === 'true') ? true : false,
+                #'administrador' => (isset($form['administrador']) and $form['administrador'] === 'true') ? true : false
+            ];
+            $IsUpdate = UpdateQuery::table('usuario')->set($FieldAndValues)->where('id', '=', $id)->update();
+            if (!$IsUpdate) {
+                $data = [
+                    'status' => false,
+                    'msg' => 'Restrição: ' . $$IsUpdate,
+                    'id' => 0
+                ];
+                $payload = json_encode($data);
+                $response->getBody()->write($payload);
+                return $response
+                    ->withHeader('Content-Type', 'application/json')
+                    ->withStatus(200);
+            }
+            $data = [
+                'status' => true,
+                'msg' => 'Dados alterados com sucesso! ',
+                'id' => $id
             ];
             $payload = json_encode($data);
             $response->getBody()->write($payload);
