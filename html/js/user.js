@@ -40,7 +40,8 @@ async function insert() {
         return;
     }
     document.getElementById('acao').value = 'e';
-    console.log('/usuario/alterar/' + response.id);
+    //Modifica a URL da aplicação sem recarregar
+    history.pushState(`/usuario/alterar/${response.id}`, '');
     Swal.fire({
         icon: "success",
         title: response.msg,
@@ -51,7 +52,6 @@ async function insert() {
             Swal.showLoading();
         }
     });
-
 }
 async function update() {
     //Valida todos os campos do formulário
