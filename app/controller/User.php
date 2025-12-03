@@ -5,6 +5,7 @@ namespace app\controller;
 use app\database\builder\InsertQuery;
 use app\database\builder\SelectQuery;
 use app\database\builder\UpdateQuery;
+use EmptyIterator;
 
 class User extends Base
 {
@@ -50,9 +51,11 @@ class User extends Base
         #Captura todas a variaveis de forma mais segura VARIAVEIS POST.
         $form = $request->getParsedBody();
         #Qual a coluna da tabela deve ser ordenada.
-        $order = $form['order'][0]['column'];
+        $order = ($form['order'][0]['column'])
+            ? $form['order'][0]['column']
+            : 0;
         #Tipo de ordenação
-        $orderType = $form['order'][0]['dir'];
+        $orderType = $form['order'][0]['dir'] ?? 'desc';
         #Em qual registro se inicia o retorno dos registro, OFFSET
         $start = $form['start'];
         #Limite de registro a serem retornados do banco de dados LIMIT
@@ -73,10 +76,12 @@ class User extends Base
                 ->where('usuario.sobrenome', 'ilike', "%{$term}%", 'or')
                 ->where('usuario.cpf', 'ilike', "%{$term}%");
         }
+
         $users = $query
             ->order($orderField, $orderType)
             ->limit($length, $start)
             ->fetchAll();
+
         $userData = [];
         foreach ($users as $key => $value) {
             $userData[$key] = [
@@ -94,6 +99,7 @@ class User extends Base
             'recordsFiltered' => count($users),
             'data' => $userData
         ];
+
         $payload = json_encode($data);
 
         $response->getBody()->write($payload);
@@ -101,6 +107,7 @@ class User extends Base
         return $response
             ->withHeader('Content-Type', 'application/json')
             ->withStatus(200);
+            
     }
     public function insert($request, $response)
     {
