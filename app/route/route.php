@@ -13,6 +13,7 @@ $app->get('/login', Login::class . ':login');
 
 $app->group('/login', function (RouteCollectorProxy $group) {
     $group->post('/precadastro', Login::class . ':precadastro');
+    $group->post('/autenticar', Login::class . ':autenticar');
 });
 $app->group('/usuario', function (RouteCollectorProxy $group) {
     $group->get('/lista', User::class . ':lista');
