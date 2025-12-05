@@ -12,7 +12,7 @@ define('DIR_VIEW', ROOT . '/app/view');
 define('HOME', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST']);
 
 
-var_dump($_SERVER['REQUEST_SCHEME']);
+var_dump($_SERVER);
 echo "<br>";
 var_dump(HOME);
 die;
