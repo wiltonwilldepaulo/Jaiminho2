@@ -114,7 +114,7 @@ EOF
 
 create_user_if_not_exists
 create_database_if_not_exists
-create_schema_objects
+create_schema_objects 
 
 echo ">> Processo concluído!"
 
