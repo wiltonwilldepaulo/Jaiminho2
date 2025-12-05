@@ -10,3 +10,6 @@ define('DIR_VIEW', ROOT . '/app/view');
 #$_SERVER['REQUEST_SCHEME'] : Indica o protocolo usado na requisição atual. podendo ser http ou https
 #Criamos uma constante chamada HOME que guarda automaticamente o endereço principal do site.
 define('HOME', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST']);
+
+var_dump(HOME);
+die;
