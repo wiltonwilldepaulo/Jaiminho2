@@ -10,8 +10,6 @@ composer update --no-dev --no-progress -a
 composer upgrade --no-dev --no-progress -a
 composer du -o --no-dev --no-progress -a
 
-#!/bin/bash
-
 PG_USER="will"
 PG_PASS="will"
 PG_DB="will"
