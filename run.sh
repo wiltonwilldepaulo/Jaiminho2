@@ -5,15 +5,16 @@ cd /home/jaiminho2/
 rm -R vendor/
 rm -R composer.lock
 
-composer install --no-dev --no-progress -a
-composer update --no-dev --no-progress -a
-composer upgrade --no-dev --no-progress -a
-composer du -o --no-dev --no-progress -a
+# Configurar e executar o Composer
+export COMPOSER_ALLOW_SUPERUSER=1
+echo "Instalando dependências do Composer..."
+composer install --no-interaction --prefer-dist --optimize-autoloader
+composer update --no-interaction
+composer dump-autoload -o
 
 PG_USER="will"
 PG_PASS="will"
 PG_DB="will"
-
 ############################################################
 # 1) Criar usuário se não existir
 ############################################################
@@ -30,7 +31,6 @@ create_user_if_not_exists() {
         echo "   - Usuário criado com sucesso."
     fi
 }
-
 ############################################################
 # 2) Criar banco se não existir e definir owner
 ############################################################
@@ -48,13 +48,11 @@ create_database_if_not_exists() {
         echo "   - Banco criado com sucesso."
     fi
 }
-
 ############################################################
 # 3) Criar tabelas e view se não existirem
 ############################################################
 create_schema_objects() {
     echo ">> Conectando ao banco '${PG_DB}' e criando objetos..."
-
 sudo -u postgres psql -d "${PG_DB}" <<EOF
     -- Tabela usuario
     CREATE TABLE IF NOT EXISTS usuario (
@@ -104,7 +102,6 @@ sudo -u postgres psql -d "${PG_DB}" <<EOF
     LEFT JOIN contato c ON c.id_usuario = u.id
     GROUP BY u.id, u.nome, u.sobrenome, u.cpf, u.rg, u.data_cadastro, u.data_alteracao;
 EOF
-
     echo "   - Tabelas e view verificadas/criadas com sucesso."
 }
 
@@ -118,4 +115,4 @@ create_schema_objects
 
 echo ">> Processo concluído!"
 
-service nginx restart
+service nginx reload

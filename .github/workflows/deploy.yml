@@ -30,5 +30,6 @@ jobs:
           script: |
             cd /home/jaiminho2
             dos2unix run.sh
+            chmod +x run.sh
             sudo bash run.sh
             chown -R www-data:www-data .
