@@ -11,5 +11,8 @@ define('DIR_VIEW', ROOT . '/app/view');
 #Criamos uma constante chamada HOME que guarda automaticamente o endereço principal do site.
 define('HOME', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST']);
 
+
+var_dump($_SERVER['REQUEST_SCHEME']);
+echo "<br>";
 var_dump(HOME);
 die;
