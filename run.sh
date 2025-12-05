@@ -118,6 +118,4 @@ create_schema_objects
 
 echo ">> Processo concluído!"
 
-
-
-service nginx reaload
+service nginx restart
