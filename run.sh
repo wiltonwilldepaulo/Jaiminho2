@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd /home/jaiminho2/
+
 rm -R vendor/
 rm -R composer.lock
 
