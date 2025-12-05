@@ -28,7 +28,7 @@ class Connection
 
             # Criação da nova conexão PDO com os parâmetros do banco de dados.
             static::$pdo = new PDO(
-                'pgsql:host=localhost;port=5432;dbname=senac', # DSN (Data Source Name) para PostgreSQL.
+                'pgsql:host=localhost;port=5432;dbname=will', # DSN (Data Source Name) para PostgreSQL.
                 'integra', # Nome de usuário do banco de dados.
                 '@w906083W@', # Senha do banco de dados.
                 $options # Opções para a conexão PDO.
