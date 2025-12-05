@@ -54,12 +54,11 @@ create_database_if_not_exists() {
 ############################################################
 create_schema_objects() {
     echo ">> Conectando ao banco '${PG_DB}' e criando objetos..."
-
+    
     sudo -u postgres psql -d "${PG_DB}" <<EOF
-
 -- Tabela usuario
-CREATE TABLE IF NOT EXISTS public.usuario (
-    id bigint NOT NULL DEFAULT nextval('usuario_id_seq'::regclass),
+CREATE TABLE IF NOT EXISTS usuario (
+    id bigserial PRIMARY KEY,
     nome text,
     sobrenome text,
     cpf text,
@@ -68,15 +67,13 @@ CREATE TABLE IF NOT EXISTS public.usuario (
     senha text,
     ativo boolean DEFAULT false,
     administrador boolean DEFAULT false,
+    codigo_verificacao text,
     data_cadastro timestamp DEFAULT CURRENT_TIMESTAMP,
     data_alteracao timestamp DEFAULT CURRENT_TIMESTAMP,
-    codigo_verificacao text,
-    CONSTRAINT usuario_pkey PRIMARY KEY (id)
 );
-
 -- Tabela contato
 CREATE TABLE IF NOT EXISTS public.contato (
-    id bigint NOT NULL DEFAULT nextval('contato_id_seq'::regclass),
+    id bigserial PRIMARY KEY,
     id_usuario bigint,
     tipo text,
     contato text,
@@ -88,7 +85,6 @@ CREATE TABLE IF NOT EXISTS public.contato (
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 );
-
 -- View vw_usuario_contatos
 CREATE OR REPLACE VIEW public.vw_usuario_contatos AS
 SELECT u.id,
