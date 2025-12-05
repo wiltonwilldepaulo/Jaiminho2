@@ -54,7 +54,7 @@ create_database_if_not_exists() {
 ############################################################
 create_schema_objects() {
     echo ">> Conectando ao banco '${PG_DB}' e criando objetos..."
-    
+
     sudo -u postgres psql -d "${PG_DB}" <<EOF
 -- Tabela usuario
 CREATE TABLE IF NOT EXISTS usuario (
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS usuario (
     administrador boolean DEFAULT false,
     codigo_verificacao text,
     data_cadastro timestamp DEFAULT CURRENT_TIMESTAMP,
-    data_alteracao timestamp DEFAULT CURRENT_TIMESTAMP,
+    data_alteracao timestamp DEFAULT CURRENT_TIMESTAMP
 );
 -- Tabela contato
 CREATE TABLE IF NOT EXISTS public.contato (
