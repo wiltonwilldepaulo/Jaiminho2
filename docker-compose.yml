@@ -86,7 +86,7 @@ volumes:
   # Volume responsável por armazenar os dados do PostgreSQL
   pgdata:
 
-# Definição das redes do projeto
+    # Definição das redes do projeto
 networks:
   # Rede bridge interna para comunicação entre os containers
   app_network:

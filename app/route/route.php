@@ -19,3 +19,5 @@ $app->group('/usuario', function (RouteCollectorProxy $group) {
     $group->post('/insert', User::class . ':insert');
     $group->post('/update', User::class . ':update');
 });
+        /*
+*/
