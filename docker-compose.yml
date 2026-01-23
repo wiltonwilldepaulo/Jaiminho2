@@ -45,7 +45,7 @@ services:
     volumes:
       - ./:/var/www/
 
-    command: >
+    command: >+
       sh -c "composer install --no-interaction &&
              composer dump-autoload -o &&
              php-fpm"
@@ -68,28 +68,27 @@ services:
   postgres:
     # Imagem oficial do PostgreSQL baseada em Alpine Linux
     image: postgres:18.1-alpine3.23
-
     # Nome fixo do container do banco
     container_name: app_postgres
-
+    restart: unless-stopped
     # Variáveis de ambiente usadas pelo PostgreSQL na inicialização
     environment:
       # Nome do banco de dados, vindo do arquivo .env
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_DB: development_db
       # Usuário do banco, vindo do arquivo .env
-      POSTGRES_USER: ${DB_USER}
+      POSTGRES_USER: senac
       # Senha do banco, vindo do arquivo .env
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PASSWORD: senac
       # Define o fuso horário do container
       TZ: America/Sao_Paulo
-
     # Volumes persistentes e scripts de inicialização
     volumes:
       # Volume nomeado para persistir os dados do banco
       - pgdata:/var/lib/postgresql/data
       # Script SQL executado automaticamente na primeira inicialização
       - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-
+    ports:
+      - "5432:5432"
     # Conecta o container à rede interna do projeto
     networks:
       - app_network
