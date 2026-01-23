@@ -17,5 +17,3 @@ final class Users extends AbstractMigration
             ->create();
     }
 }
-
-
