@@ -20,7 +20,7 @@ return
             ],
             'development' => [
                 'adapter' => 'pgsql',
-                'host' => 'localhost',
+                'host' => 'postgres',
                 'name' => 'development_db',
                 'user' => 'senac',
                 'pass' => 'senac',
