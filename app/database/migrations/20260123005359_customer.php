@@ -8,7 +8,11 @@ final class Customer extends AbstractMigration
 {
     public function change(): void
     {
-        $table = $this->table('customer', ['id' => false, 'primary_key' => ['id']]);
+        $table = $this->table('customer', [
+            'id' => false,
+            'primary_key' => ['id'],
+            'comment' => 'Tabela responsável por guardar dodados de cliente.'
+        ]);
         $table->addColumn('id', 'biginteger', ['identity' => true, 'null' => false])
             ->addColumn('nome_fantasia', 'text', ['null' => true])
             ->addColumn('sobrenome_razao', 'text', ['null' => true])
