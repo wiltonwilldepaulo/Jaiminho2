@@ -2,6 +2,7 @@
 
 use app\controller\Home;
 use app\controller\Login;
+use app\controller\PaymentTerms;
 use app\controller\Sale;
 use app\controller\User;
 use Slim\Routing\RouteCollectorProxy;
@@ -24,4 +25,8 @@ $app->group('/usuario', function (RouteCollectorProxy $group) {
     $group->get('/print', User::class . ':print');
     $group->post('/insert', User::class . ':insert');
     $group->post('/update', User::class . ':update');
+});
+$app->group('/pagamento', function (RouteCollectorProxy $group) {
+    $group->get('/lista', PaymentTerms::class . ':lista');
+    $group->get('/cadastro', PaymentTerms::class . ':cadastro');
 });
