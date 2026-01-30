@@ -16,8 +16,7 @@ $app->group('/usuario', function (RouteCollectorProxy $group) {
     $group->get('/lista', User::class . ':lista');
     $group->get('/cadastro', User::class . ':cadastro');
     $group->get('/alterar/{id}', User::class . ':alterar');
+    $group->get('/print', User::class . ':print');
     $group->post('/insert', User::class . ':insert');
     $group->post('/update', User::class . ':update');
 });
-        /*
-*/
