@@ -37,7 +37,6 @@ async function insertPaymentTerms() {
     }
 }
 
-
 insertPaymentoTermsButton.addEventListener('click', async () => {
     await insertPaymentTerms();
 });
