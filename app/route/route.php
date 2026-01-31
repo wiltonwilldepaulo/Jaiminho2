@@ -29,4 +29,5 @@ $app->group('/usuario', function (RouteCollectorProxy $group) {
 $app->group('/pagamento', function (RouteCollectorProxy $group) {
     $group->get('/lista', PaymentTerms::class . ':lista');
     $group->get('/cadastro', PaymentTerms::class . ':cadastro');
+    $group->get('/alterar/{id}', PaymentTerms::class . ':alterar');
 });
