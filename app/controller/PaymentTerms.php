@@ -158,7 +158,7 @@ class PaymentTerms extends Base
         }
         try {
             $isDeleted = DeleteQuery::table('installment')->where('id', '=', $idInstallment)->delete();
-            if ($isDeleted) {
+            if (!$isDeleted) {
                 return $this->SendJson($response, ['status' => false, 'msg' => 'Restrição: ' . $isDeleted, 'id' => 0], 500);
             }
             return $this->SendJson($response, ['status' => true, 'msg' => 'Removido com sucesso!', 'id' => $idInstallment], 200);
