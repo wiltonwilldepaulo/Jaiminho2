@@ -35,4 +35,5 @@ $app->group('/pagamento', function (RouteCollectorProxy $group) {
     $group->post('/insertinstallment', PaymentTerms::class . ':insertInstallment');
     $group->post('/loaddatainstallments', PaymentTerms::class . ':loaddatainstallments');
     $group->post('/deleteinstallment', PaymentTerms::class . ':deleteinstallment');
+    $group->post('/listapaymentterms', PaymentTerms::class . ':listapaymentterms');
 });

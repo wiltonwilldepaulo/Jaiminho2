@@ -20,7 +20,7 @@
                         <a href="/pagamento/cadastro" class="btn btn-success">Cadastrar</a>
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped table-hover table-bordered">
+                        <table id="tabela" class="table table-striped table-hover table-bordered">
                             <thead>
                                 <tr>
                                     <th>Código</th>
@@ -56,5 +56,5 @@
 
 {% block script %}
 {% include 'script.html' %}
-<script src="/js/listpaymentterms.js"></script>
+<script defer type="module" src="/js/listpaymentterms.js"></script>
 {% endblock %}
