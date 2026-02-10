@@ -1,5 +1,3 @@
-// Sistema de Vendas - JavaScript
-
 // Atualizar relógio em tempo real
 function updateClock() {
     const now = new Date();
@@ -29,11 +27,9 @@ function updateClock() {
         dateElement.textContent = `${dayName}, ${day} De ${month} De ${year}`;
     }
 }
-
 // Atualizar a cada segundo
 setInterval(updateClock, 1000);
 updateClock();
-
 // Event Listeners para botões de adicionar
 document.addEventListener('DOMContentLoaded', function () {
     // Botões de adicionar produto
@@ -157,7 +153,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
-
 // Atalhos de teclado
 document.addEventListener('keydown', function (e) {
     // F2 - Focar no campo de busca
@@ -165,20 +160,17 @@ document.addEventListener('keydown', function (e) {
         e.preventDefault();
         document.querySelector('.search-input')?.focus();
     }
-
     // F9 - Finalizar venda
     if (e.key === 'F9') {
         e.preventDefault();
         document.querySelector('.btn-finalize')?.click();
     }
-
     // Esc - Cancelar venda
     if (e.key === 'Escape') {
         e.preventDefault();
         document.querySelector('.btn-cancel')?.click();
     }
 });
-
 // Feedback visual para cliques
 document.addEventListener('click', function (e) {
     if (e.target.matches('button')) {
@@ -186,6 +178,21 @@ document.addEventListener('click', function (e) {
     }
 });
 
-$('#select-field').select2({
-    theme: 'bootstrap-5'
+document.addEventListener('keydown', (e) => {
+    //Fechamos o modal com a tecla F3
+    if (e.key === 'F8') {
+        const myModalEl = document.getElementById('pesquisaProdutoModal');
+        const modal = bootstrap.Modal.getInstance(myModalEl);
+        modal.hide();
+    }
+});
+
+$("#pesquisa").select2({
+    theme: "bootstrap-5",
+    placeholder: "Selecione um produto",
+    ajax: {
+        url: "/produto/listproductdata",
+        type: "POST",
+        delay: 250
+    }
 });
