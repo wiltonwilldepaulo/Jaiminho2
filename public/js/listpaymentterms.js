@@ -1,5 +1,3 @@
-import { DataTables } from "./DataTables.js";
-
 const conf = {
     paging: true,
     lengthChange: true,
@@ -17,14 +15,8 @@ const conf = {
         searchPlaceholder: 'Digite sua pesquisa...'
     },
     ajax: {
-        url: this.url,
-        type: this.method,
-        data: () => {
-            // Adiciona as variáveis de requisição
-            this.requestVariables.forEach(variable => {
-                requestData[variable] = $('#' + variable).val();
-            });
-        }
+        url: '/pagamento/listapaymentterms',
+        type: 'POST'
     },
     layout: {
         topStart: 'search',
