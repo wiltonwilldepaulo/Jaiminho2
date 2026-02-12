@@ -26,8 +26,11 @@ class Sale extends Base
     }
     public function insert($request, $response)
     {
-        $data = $request->getParsedBody();
-        var_dump($data);
-        die;
+        $form = $request->getParsedBody();
+        $id_produto = $form['id_produto'];
+
+        $FieldAndValue = [
+            
+        ];
     }
 }
