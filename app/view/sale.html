@@ -82,8 +82,8 @@
             <section class="products-section">
                 <div class="search-box">
                     <form id="form">
-                        <input type="text" id="acao" name="acao" value="{{acao}}">
-                        <input type="text" id="id" name="id">
+                        <input type="hidden" id="acao" name="acao" value="{{acao}}">
+                        <input type="hidden" id="id" name="id" value="{{id}}">
                         <h3>Buscar Produtos</h3>
                         <div class="row">
                             <div class="input-group">
@@ -107,7 +107,7 @@
                 <div class="products-list">
                     <div class="products-header">
                         <h3>Produtos</h3>
-                        <span class="product-count" id="total_item">0</span>
+                        <span class="product-count" id="product-count">0</span>
                     </div>
                     <table class="products-table">
                         <thead>
@@ -118,7 +118,7 @@
                                 <th>Ação</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody id="products-table-tbody"></tbody>
                     </table>
                 </div>
             </section>
@@ -144,11 +144,11 @@
                     <div class="total-section">
                         <div class="subtotal">
                             <span>Subtotal:</span>
-                            <span class="amount">R$ 0,00</span>
+                            <span id="amount" class="amount">R$ 0,00</span>
                         </div>
                         <div class="total">
                             <span>Total:</span>
-                            <span class="total-amount">R$ 0,00</span>
+                            <span id="total-amount" class="total-amount">R$ 0,00</span>
                         </div>
                     </div>
 

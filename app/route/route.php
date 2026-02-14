@@ -21,8 +21,11 @@ $app->group('/produto', function (RouteCollectorProxy $group) {
 $app->group('/venda', function (RouteCollectorProxy $group) {
     $group->get('/lista', Sale::class . ':lista');
     $group->get('/cadastro', Sale::class . ':cadastro');
+    $group->get('/alterar/{id}', Sale::class . ':alterar');
     $group->post('/insert', Sale::class . ':insert');
     $group->post('/update', Sale::class . ':update');
+    $group->post('/insertitem', Sale::class . ':insertitem');
+    $group->post('/listitemsale', Sale::class . ':listitemsale');
 });
 $app->group('/usuario', function (RouteCollectorProxy $group) {
     $group->get('/lista', User::class . ':lista');
