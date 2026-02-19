@@ -84,6 +84,75 @@
                     <form id="form">
                         <input type="hidden" id="acao" name="acao" value="{{acao}}">
                         <input type="hidden" id="id" name="id" value="{{id}}">
+                        <!-- Modal de condição de pagamento -->
+                        <div class="modal fade" id="pagamentoVenda" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="pagamentoVendaLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="pagamentoVendaLabel">Pagamento</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row g-2">
+                                            <div class="col-md">
+                                                <div class="form-floating">
+                                                    <select class="form-select" id="condicaoPagamento"
+                                                        name="condicaoPagamento">
+                                                        <option selected>Open this select menu</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </select>
+                                                    <label for="condicaoPagamento">Selecione a condição de
+                                                        pagamento</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control" id="valorPago"
+                                                        name="valorPago" placeholder="name@example.com" value="R$ 0,00">
+                                                    <label for="valorPago">Informe o valor</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row g-2 mt-2">
+                                            <div class="col-md">
+                                                <div class="form-floating">
+                                                    <select class="form-select" id="parcelas" name="parcelas">
+                                                        <option selected>Open this select menu</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </select>
+                                                    <label for="parcelas">Selecione a quantidade de parcelas</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control" id="diaVencimento"
+                                                        name="diaVencimento" placeholder="name@example.com">
+                                                    <label for="diaVencimento">Selecione dia de vencimento</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row g-2 mt-2">
+                                            <div class="col-6">
+                                                <button type="button" class="btn-finalize">Adicionar</button>
+                                            </div>
+                                        </div>
+                                        <div class="row g-2 mt-2">
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn-finalize">Concluir</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <h3>Buscar Produtos</h3>
                         <div class="row">
                             <div class="input-group">
@@ -153,7 +222,7 @@
                     </div>
 
                     <div class="action-buttons">
-                        <button class="btn-finalize">
+                        <button class="btn-finalize" data-bs-toggle="modal" data-bs-target="#pagamentoVenda">
                             <i class="fas fa-check-circle"></i> Finalizar Venda
                         </button>
                         <button class="btn-cancel">

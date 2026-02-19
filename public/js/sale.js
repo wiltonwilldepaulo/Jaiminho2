@@ -30,7 +30,6 @@ function updateClock() {
 }
 // Atualizar a cada segundo
 setInterval(updateClock, 1000);
-updateClock();
 //Insere uma nova venda
 async function InsertSale() {
     const valid = Validate.SetForm('form').Validate();
@@ -208,6 +207,10 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'F9') {
         alert('olá');
     }
+});
+$("#diaVencimento").flatpickr({
+    "locale": "pt",
+    "dateFormat": "d/m/Y", // Opcional: Formato brasileiro
 });
 $('#pesquisa').select2({
     theme: 'bootstrap-5',
