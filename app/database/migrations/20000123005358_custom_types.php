@@ -20,8 +20,7 @@ final class CustomTypes extends AbstractMigration
                 'AJUSTE_MANUAL',
                 'INVENTARIO',
                 'TRANSFERENCIA'
-            );
-            
+            );            
         ");
     }
 }

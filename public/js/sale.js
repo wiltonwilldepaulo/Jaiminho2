@@ -102,6 +102,48 @@ async function InsertItemSale() {
             return;
         }
         //Atualiza a a tabela de itens da venda.
+        await listItemSale();
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: error.message || 'Ocorreu um erro ao inserir a venda.',
+            time: 3000,
+            progressBar: true,
+        });
+    }
+}
+async function deleteItem(id) {
+    document.getElementById('id_item').value = id;
+    try {
+        const response = await Requests.SetForm('form').Post('/venda/deleteitem');
+        if (!response.status) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: response.msg || 'Não foi possivel listar os dados da venda',
+                time: 2000,
+                progressBar: true,
+            });
+            return;
+        }
+        //Remove a linha do item da venda
+        document.getElementById(`tritem${id}`).remove();
+
+        let total_liquido = parseFloat(response?.sale?.total_liquido);
+        let total_bruto = parseFloat(response?.sale?.total_bruto);
+
+        document.getElementById('total-amount').innerText = total_liquido
+            .toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+
+        document.getElementById('amount').innerText = total_bruto
+            .toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
 
     } catch (error) {
         Swal.fire({
@@ -149,12 +191,12 @@ async function listItemSale() {
                     currency: 'BRL'
                 });
             trs += `
-                <tr>
+                <tr id="tritem${item.id}">
                     <td>${item.id}</td>
                     <td>${item.nome}</td>
                     <td>${total_liquido}</td>
                     <td>
-                        <button class="btn btn-danger">
+                        <button class="btn btn-danger" onclick="deleteItem(${item.id})">
                             Excluir cód: ${item.id} (Del)
                         </button>
                     </td>
@@ -167,9 +209,16 @@ async function listItemSale() {
         document.getElementById('product-count').innerText = `Itens ${(response.data).length}`;
 
     } catch (error) {
-
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: error.message || 'Ocorreu um erro ao inserir a venda.',
+            time: 3000,
+            progressBar: true,
+        });
     }
 }
+window.deleteItem = deleteItem;
 // Event Listeners para botões de adicionar
 document.addEventListener('DOMContentLoaded', async () => {
     if (Action.value === 'e') {

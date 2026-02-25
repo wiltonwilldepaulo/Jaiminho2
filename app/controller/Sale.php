@@ -2,6 +2,7 @@
 
 namespace app\controller;
 
+use app\database\builder\DeleteQuery;
 use app\database\builder\InsertQuery;
 use app\database\builder\SelectQuery;
 use app\database\builder\UpdateQuery;
@@ -272,5 +273,39 @@ class Sale extends Base
             'data' => $items
         ];
         return $this->SendJson($response, $data);
+    }
+    public function deleteitem($request, $response)
+    {
+        $form = $request->getParsedBody();
+        $id_item = $form['id_item'] ?? null;
+        $id_venda = $form['id'] ?? null;
+        if (is_null($id_item)) {
+            return $this->SendJson($response, ['status' => false, 'msg' => 'Por favor informe, o código do item para remover', 'id' => 0], 403);
+        }
+        if (is_null($id_venda)) {
+            return $this->SendJson($response, ['status' => false, 'msg' => 'Por favor informe, o código do venda prosseguir', 'id' => 0], 403);
+        }
+        try {
+            $IsDeleted = DeleteQuery::table('item_sale')->where('id', '=', $id_item)->delete();
+            if (!$IsDeleted) {
+                return $this->SendJson($response, ['status' => false, 'msg' => 'Não foi possível remover o item tente novamente mais tarde!', 'id' => $id_item], 403);
+            }
+            $sale = SelectQuery::select("COALESCE(SUM(total_bruto),0) AS total_bruto, COALESCE(SUM(total_liquido),0) AS total_liquido")
+                ->from('item_sale')
+                ->where('id_venda', '=', $id_venda)
+                ->fetch();
+            $FieldAndValues = [
+                'total_bruto' => $sale['total_bruto'],
+                'total_liquido' => $sale['total_liquido']
+            ];
+            UpdateQuery::table('sale')->set($FieldAndValues)->where('id', '=', $id_venda)->update();
+            return $this->SendJson($response, ['status' => true, 'msg' => 'Item removido com sucesso!', 'id' => $id_item, 'sale' => $sale]);
+        } catch (\Exception $e) {
+            return $this->SendJson($response, [
+                'status' => false,
+                'msg' => 'Restrição: ' . $e->getMessage(),
+                'id' => 0
+            ], 500);
+        }
     }
 }
