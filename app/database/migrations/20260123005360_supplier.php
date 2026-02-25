@@ -11,7 +11,7 @@ final class Supplier extends AbstractMigration
         $table = $this->table('supplier', [
             'id' => false,
             'primary_key' => ['id'],
-            'comment' => 'Tabela responsável por guardar dodados de fornecedor.'
+            'comment' => 'Tabela responsável por guardar dados de fornecedor.'
         ]);
         $table->addColumn('id', 'biginteger', ['identity' => true, 'null' => false])
             ->addColumn('nome_fantasia', 'text', ['null' => true])

@@ -294,12 +294,17 @@ class Sale extends Base
                 ->from('item_sale')
                 ->where('id_venda', '=', $id_venda)
                 ->fetch();
+            #Total de itens da venda
+            $itens = SelectQuery::select('count(*) as qtd ')
+                ->from('item_sale')
+                ->where('id_venda', '=', $id_venda)
+                ->fetch();
             $FieldAndValues = [
                 'total_bruto' => $sale['total_bruto'],
                 'total_liquido' => $sale['total_liquido']
             ];
             UpdateQuery::table('sale')->set($FieldAndValues)->where('id', '=', $id_venda)->update();
-            return $this->SendJson($response, ['status' => true, 'msg' => 'Item removido com sucesso!', 'id' => $id_item, 'sale' => $sale]);
+            return $this->SendJson($response, ['status' => true, 'msg' => 'Item removido com sucesso!', 'id' => $id_item, 'sale' => $sale, 'itens' => $itens['qtd']]);
         } catch (\Exception $e) {
             return $this->SendJson($response, [
                 'status' => false,

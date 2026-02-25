@@ -221,4 +221,22 @@ class PaymentTerms extends Base
         ];
         return $this->SendJson($response, $data, 200);
     }
+    public function loaddatapayment($request, $response)
+    {
+        try {
+            $query = SelectQuery::select('id, titulo')->from('payment_terms')->fetchAll();
+            $data = [
+                'status' => true,
+                'msg' => 'sucesso',
+                'data' => $query
+            ];
+            return $this->SendJson($response, $data);
+        } catch (\Exception $e) {
+            return $this->SendJson($response, [
+                'status' => false,
+                'msg' => 'Restrição: ' . $e->getMessage(),
+                500
+            ]);
+        }
+    }
 }

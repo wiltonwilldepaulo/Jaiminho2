@@ -4,6 +4,7 @@ import { Requests } from "./Requests.js";
 const Action = document.getElementById('acao');
 const Id = document.getElementById('id');
 const insertItemButton = document.getElementById('insertItemButton');
+const modalPayment = document.getElementById('pagamentoVenda');
 // Atualizar relógio em tempo real
 function updateClock() {
     const now = new Date();
@@ -144,7 +145,7 @@ async function deleteItem(id) {
                 style: 'currency',
                 currency: 'BRL'
             });
-
+        document.getElementById('product-count').innerHTML = `Itens ${response.itens}`;
     } catch (error) {
         Swal.fire({
             icon: 'error',
@@ -274,4 +275,13 @@ $('.form-select').on('select2:open', function (e) {
     let inputElement = document.querySelector('.select2-search__field');
     inputElement.placeholder = 'Digite para pesquisar...';
     inputElement.focus();
+});
+modalPayment.addEventListener('shown.bs.modal', async () => {
+    const response = await Requests.SetForm('form').Post('/pagamento/loaddatapayment');
+    let options = '';
+    response.data.forEach(item => {
+        options += `<option value="${item.id}">${item.titulo}</option>`;
+    });
+    document.getElementById('condicaoPagamento').innerHTML = '';
+    document.getElementById('condicaoPagamento').innerHTML = options;
 });
