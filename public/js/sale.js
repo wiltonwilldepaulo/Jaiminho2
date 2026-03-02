@@ -5,6 +5,11 @@ const Action = document.getElementById('acao');
 const Id = document.getElementById('id');
 const insertItemButton = document.getElementById('insertItemButton');
 const modalPayment = document.getElementById('pagamentoVenda');
+const valorPago = document.getElementById('valorPago');
+const condicaoPagamento = document.getElementById('condicaoPagamento');
+const Installment = document.getElementById('parcelas');
+const diaVencimento = document.getElementById('diaVencimento');
+
 // Atualizar relógio em tempo real
 function updateClock() {
     const now = new Date();
@@ -220,6 +225,18 @@ async function listItemSale() {
     }
 }
 window.deleteItem = deleteItem;
+const parseBRLToFloat = (value) => {
+    if (typeof value !== 'string') return NaN;
+
+    const normalized = value
+        .replace(/[R$\s]/g, '')  // Remove 'R$' e espaços
+        .replace(/\./g, '')       // Remove separadores de milhar
+        .replace(',', '.');       // Troca vírgula decimal por ponto
+
+    const result = parseFloat(normalized);
+
+    return isNaN(result) ? NaN : result;
+};
 // Event Listeners para botões de adicionar
 document.addEventListener('DOMContentLoaded', async () => {
     if (Action.value === 'e') {
@@ -258,6 +275,13 @@ document.addEventListener('keydown', (e) => {
         alert('olá');
     }
 });
+$('#valorPago').maskMoney({
+    prefix: "R$ ",
+    decimal: ",",
+    thousands: ".",
+    formatOnBlur: true,
+    selectAllOnFocus: true
+});
 $("#diaVencimento").flatpickr({
     "locale": "pt",
     "dateFormat": "d/m/Y", // Opcional: Formato brasileiro
@@ -277,6 +301,25 @@ $('.form-select').on('select2:open', function (e) {
     inputElement.focus();
 });
 modalPayment.addEventListener('shown.bs.modal', async () => {
+    //Dados dados da venda total liquida da venda e total de itens
+    const saledata = await Requests.SetForm('form').Post('/venda/selectsaledata');
+    if (saledata.itens <= 0) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Para faturar é necessário inserir pelomenos um item!',
+            time: 3000,
+            progressBar: true,
+        });
+        return;
+    }
+    document.getElementById('totalBruto').value = saledata.total_bruto;
+    document.getElementById('totalLiquido').value = saledata.total_liquido;
+    document.getElementById('valorPago').value = parseFloat(saledata.total_liquido).toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    });
+    document.getElementById('valorPago').focus();
     const response = await Requests.SetForm('form').Post('/pagamento/loaddatapayment');
     let options = '';
     response.data.forEach(item => {
@@ -284,4 +327,38 @@ modalPayment.addEventListener('shown.bs.modal', async () => {
     });
     document.getElementById('condicaoPagamento').innerHTML = '';
     document.getElementById('condicaoPagamento').innerHTML = options;
+});
+valorPago.addEventListener('keydown', () => {
+    const valorpago = parseBRLToFloat(valorPago.value);
+    const totalliquido = parseBRLToFloat(document.getElementById('totalLiquido').value);
+    document.getElementById('adicionarParcela').classList.add('d-none');
+    if (valorpago < totalliquido) {
+        document.getElementById('adicionarParcela').classList.remove('d-none');
+    }
+});
+condicaoPagamento.addEventListener('change', async () => {
+    try {
+        const response = await Requests.SetForm('form').Post('/venda/listinstallments');
+        let options = '';
+        document.getElementById('parcelamento').classList.add('d-none');
+        if (response.data.length > 0) {
+            document.getElementById('parcelamento').classList.remove('d-none');
+        }
+        response.data.forEach(item => {
+            options += `<option value="${item.id}"> Intervalo: ${item.intervalor} dias - ${item.parcela} X </option>`;
+        });
+        document.getElementById('parcelas').innerHTML = options;
+
+        const valorpago = parseBRLToFloat(valorPago.value);
+        const totalliquido = parseBRLToFloat(document.getElementById('totalLiquido').value);
+
+        document.getElementById('adicionarParcela').classList.add('d-none');
+        if (valorpago < totalliquido) {
+            document.getElementById('adicionarParcela').classList.remove('d-none');
+        }
+
+
+    } catch (error) {
+
+    }
 });
